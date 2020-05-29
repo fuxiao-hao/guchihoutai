@@ -1,0 +1,20 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD com.example.Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newer.dao.BackadminMapper">
+	<resultMap type="com.newer.domain.Backadmin" id="result">
+		<result property="adminid" column="adminid" />
+		<result property="adminname" column="adminname" />
+		<result property="password" column="password" />
+		<result property="sex" column="sex" />
+		<result property="phone" column="phone" />
+		<result property="email" column="email" />
+		<result property="image" column="image" />
+	</resultMap>
+
+	<select id="selectBackadmin" resultMap="result">
+		select * from backadmin where adminname=#{adminname}
+	</select>
+
+</mapper>

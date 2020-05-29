@@ -1,0 +1,446 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newer.dao.OrdersMapper">
+  <resultMap id="BaseResultMap" type="com.newer.domain.Orders">
+    <id column="ORDER_ID" jdbcType="DECIMAL" property="orderId" />
+    <result column="ORDER_DATE" jdbcType="OTHER" property="orderDate" />
+    <result column="ORDER_MODE" jdbcType="VARCHAR" property="orderMode" />
+    <result column="CUSTOMER_ID" jdbcType="DECIMAL" property="customerId" />
+    <result column="ORDER_STATUS" jdbcType="DECIMAL" property="orderStatus" />
+    <result column="ORDER_TOTAL" jdbcType="DECIMAL" property="orderTotal" />
+    <result column="SALES_REP_ID" jdbcType="DECIMAL" property="salesRepId" />
+    <result column="PROMOTION_ID" jdbcType="DECIMAL" property="promotionId" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ORDER_ID, ORDER_DATE, ORDER_MODE, CUSTOMER_ID, ORDER_STATUS, ORDER_TOTAL, SALES_REP_ID, 
+    PROMOTION_ID
+  </sql>
+  <select id="selectByExample" parameterType="com.newer.domain.OrdersExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ORDERS
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ORDERS
+    where ORDER_ID = #{orderId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from ORDERS
+    where ORDER_ID = #{orderId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.newer.domain.Orders">
+    insert into ORDERS (ORDER_ID, ORDER_DATE, ORDER_MODE, 
+      CUSTOMER_ID, ORDER_STATUS, ORDER_TOTAL, 
+      SALES_REP_ID, PROMOTION_ID)
+    values (#{orderId,jdbcType=DECIMAL}, #{orderDate,jdbcType=OTHER}, #{orderMode,jdbcType=VARCHAR}, 
+      #{customerId,jdbcType=DECIMAL}, #{orderStatus,jdbcType=DECIMAL}, #{orderTotal,jdbcType=DECIMAL}, 
+      #{salesRepId,jdbcType=DECIMAL}, #{promotionId,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.newer.domain.Orders">
+    insert into ORDERS
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orderId != null">
+        ORDER_ID,
+      </if>
+      <if test="orderDate != null">
+        ORDER_DATE,
+      </if>
+      <if test="orderMode != null">
+        ORDER_MODE,
+      </if>
+      <if test="customerId != null">
+        CUSTOMER_ID,
+      </if>
+      <if test="orderStatus != null">
+        ORDER_STATUS,
+      </if>
+      <if test="orderTotal != null">
+        ORDER_TOTAL,
+      </if>
+      <if test="salesRepId != null">
+        SALES_REP_ID,
+      </if>
+      <if test="promotionId != null">
+        PROMOTION_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orderId != null">
+        #{orderId,jdbcType=DECIMAL},
+      </if>
+      <if test="orderDate != null">
+        #{orderDate,jdbcType=OTHER},
+      </if>
+      <if test="orderMode != null">
+        #{orderMode,jdbcType=VARCHAR},
+      </if>
+      <if test="customerId != null">
+        #{customerId,jdbcType=DECIMAL},
+      </if>
+      <if test="orderStatus != null">
+        #{orderStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="orderTotal != null">
+        #{orderTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="salesRepId != null">
+        #{salesRepId,jdbcType=DECIMAL},
+      </if>
+      <if test="promotionId != null">
+        #{promotionId,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.newer.domain.Orders">
+    update ORDERS
+    <set>
+      <if test="orderDate != null">
+        ORDER_DATE = #{orderDate,jdbcType=OTHER},
+      </if>
+      <if test="orderMode != null">
+        ORDER_MODE = #{orderMode,jdbcType=VARCHAR},
+      </if>
+      <if test="customerId != null">
+        CUSTOMER_ID = #{customerId,jdbcType=DECIMAL},
+      </if>
+      <if test="orderStatus != null">
+        ORDER_STATUS = #{orderStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="orderTotal != null">
+        ORDER_TOTAL = #{orderTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="salesRepId != null">
+        SALES_REP_ID = #{salesRepId,jdbcType=DECIMAL},
+      </if>
+      <if test="promotionId != null">
+        PROMOTION_ID = #{promotionId,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ORDER_ID = #{orderId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.newer.domain.Orders">
+    update ORDERS
+    set ORDER_DATE = #{orderDate,jdbcType=OTHER},
+      ORDER_MODE = #{orderMode,jdbcType=VARCHAR},
+      CUSTOMER_ID = #{customerId,jdbcType=DECIMAL},
+      ORDER_STATUS = #{orderStatus,jdbcType=DECIMAL},
+      ORDER_TOTAL = #{orderTotal,jdbcType=DECIMAL},
+      SALES_REP_ID = #{salesRepId,jdbcType=DECIMAL},
+      PROMOTION_ID = #{promotionId,jdbcType=DECIMAL}
+    where ORDER_ID = #{orderId,jdbcType=DECIMAL}
+  </update>
+  <resultMap id="BaseResultMap" type="com.newer.domain.Orders">
+    <id column="ORDERID" jdbcType="VARCHAR" property="orderid" />
+    <result column="ACCOUNTID" jdbcType="DECIMAL" property="accountid" />
+    <result column="SHIPID" jdbcType="VARCHAR" property="shipid" />
+    <result column="ORDERTIME" jdbcType="TIMESTAMP" property="ordertime" />
+    <result column="ORDERPRICE" jdbcType="DECIMAL" property="orderprice" />
+    <result column="ORDERSTATUS" jdbcType="VARCHAR" property="orderstatus" />
+    <result column="PAYMENTWAY" jdbcType="VARCHAR" property="paymentway" />
+    <result column="PAYACCOUNT" jdbcType="VARCHAR" property="payaccount" />
+    <result column="PAYTIME" jdbcType="TIMESTAMP" property="paytime" />
+    <result column="DELIVERYTIME" jdbcType="TIMESTAMP" property="deliverytime" />
+    <result column="DELIVERYPERSON" jdbcType="VARCHAR" property="deliveryperson" />
+    <result column="RECEIPTCONFIRMATIONTIME" jdbcType="TIMESTAMP" property="receiptconfirmationtime" />
+    <result column="RECEIPTADDRESS" jdbcType="VARCHAR" property="receiptaddress" />
+    <result column="CONSIGNEE" jdbcType="VARCHAR" property="consignee" />
+    <result column="PAYSTATUS" jdbcType="VARCHAR" property="paystatus" />
+    <result column="SETTLEMENTDATE" jdbcType="TIMESTAMP" property="settlementdate" />
+    <result column="TRACKINGNUMBER" jdbcType="VARCHAR" property="trackingnumber" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ORDERID, ACCOUNTID, SHIPID, ORDERTIME, ORDERPRICE, ORDERSTATUS, PAYMENTWAY, PAYACCOUNT, 
+    PAYTIME, DELIVERYTIME, DELIVERYPERSON, RECEIPTCONFIRMATIONTIME, RECEIPTADDRESS, CONSIGNEE, 
+    PAYSTATUS, SETTLEMENTDATE, TRACKINGNUMBER
+  </sql>
+  <select id="selectByExample" parameterType="com.newer.domain.OrdersExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ORDERS
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ORDERS
+    where ORDERID = #{orderid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from ORDERS
+    where ORDERID = #{orderid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.newer.domain.Orders">
+    insert into ORDERS (ORDERID, ACCOUNTID, SHIPID, 
+      ORDERTIME, ORDERPRICE, ORDERSTATUS, 
+      PAYMENTWAY, PAYACCOUNT, PAYTIME, 
+      DELIVERYTIME, DELIVERYPERSON, RECEIPTCONFIRMATIONTIME, 
+      RECEIPTADDRESS, CONSIGNEE, PAYSTATUS, 
+      SETTLEMENTDATE, TRACKINGNUMBER)
+    values (#{orderid,jdbcType=VARCHAR}, #{accountid,jdbcType=DECIMAL}, #{shipid,jdbcType=VARCHAR}, 
+      #{ordertime,jdbcType=TIMESTAMP}, #{orderprice,jdbcType=DECIMAL}, #{orderstatus,jdbcType=VARCHAR}, 
+      #{paymentway,jdbcType=VARCHAR}, #{payaccount,jdbcType=VARCHAR}, #{paytime,jdbcType=TIMESTAMP}, 
+      #{deliverytime,jdbcType=TIMESTAMP}, #{deliveryperson,jdbcType=VARCHAR}, #{receiptconfirmationtime,jdbcType=TIMESTAMP}, 
+      #{receiptaddress,jdbcType=VARCHAR}, #{consignee,jdbcType=VARCHAR}, #{paystatus,jdbcType=VARCHAR}, 
+      #{settlementdate,jdbcType=TIMESTAMP}, #{trackingnumber,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.newer.domain.Orders">
+    insert into ORDERS
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orderid != null">
+        ORDERID,
+      </if>
+      <if test="accountid != null">
+        ACCOUNTID,
+      </if>
+      <if test="shipid != null">
+        SHIPID,
+      </if>
+      <if test="ordertime != null">
+        ORDERTIME,
+      </if>
+      <if test="orderprice != null">
+        ORDERPRICE,
+      </if>
+      <if test="orderstatus != null">
+        ORDERSTATUS,
+      </if>
+      <if test="paymentway != null">
+        PAYMENTWAY,
+      </if>
+      <if test="payaccount != null">
+        PAYACCOUNT,
+      </if>
+      <if test="paytime != null">
+        PAYTIME,
+      </if>
+      <if test="deliverytime != null">
+        DELIVERYTIME,
+      </if>
+      <if test="deliveryperson != null">
+        DELIVERYPERSON,
+      </if>
+      <if test="receiptconfirmationtime != null">
+        RECEIPTCONFIRMATIONTIME,
+      </if>
+      <if test="receiptaddress != null">
+        RECEIPTADDRESS,
+      </if>
+      <if test="consignee != null">
+        CONSIGNEE,
+      </if>
+      <if test="paystatus != null">
+        PAYSTATUS,
+      </if>
+      <if test="settlementdate != null">
+        SETTLEMENTDATE,
+      </if>
+      <if test="trackingnumber != null">
+        TRACKINGNUMBER,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orderid != null">
+        #{orderid,jdbcType=VARCHAR},
+      </if>
+      <if test="accountid != null">
+        #{accountid,jdbcType=DECIMAL},
+      </if>
+      <if test="shipid != null">
+        #{shipid,jdbcType=VARCHAR},
+      </if>
+      <if test="ordertime != null">
+        #{ordertime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderprice != null">
+        #{orderprice,jdbcType=DECIMAL},
+      </if>
+      <if test="orderstatus != null">
+        #{orderstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentway != null">
+        #{paymentway,jdbcType=VARCHAR},
+      </if>
+      <if test="payaccount != null">
+        #{payaccount,jdbcType=VARCHAR},
+      </if>
+      <if test="paytime != null">
+        #{paytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deliverytime != null">
+        #{deliverytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deliveryperson != null">
+        #{deliveryperson,jdbcType=VARCHAR},
+      </if>
+      <if test="receiptconfirmationtime != null">
+        #{receiptconfirmationtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="receiptaddress != null">
+        #{receiptaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="consignee != null">
+        #{consignee,jdbcType=VARCHAR},
+      </if>
+      <if test="paystatus != null">
+        #{paystatus,jdbcType=VARCHAR},
+      </if>
+      <if test="settlementdate != null">
+        #{settlementdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="trackingnumber != null">
+        #{trackingnumber,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.newer.domain.Orders">
+    update ORDERS
+    <set>
+      <if test="accountid != null">
+        ACCOUNTID = #{accountid,jdbcType=DECIMAL},
+      </if>
+      <if test="shipid != null">
+        SHIPID = #{shipid,jdbcType=VARCHAR},
+      </if>
+      <if test="ordertime != null">
+        ORDERTIME = #{ordertime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderprice != null">
+        ORDERPRICE = #{orderprice,jdbcType=DECIMAL},
+      </if>
+      <if test="orderstatus != null">
+        ORDERSTATUS = #{orderstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentway != null">
+        PAYMENTWAY = #{paymentway,jdbcType=VARCHAR},
+      </if>
+      <if test="payaccount != null">
+        PAYACCOUNT = #{payaccount,jdbcType=VARCHAR},
+      </if>
+      <if test="paytime != null">
+        PAYTIME = #{paytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deliverytime != null">
+        DELIVERYTIME = #{deliverytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deliveryperson != null">
+        DELIVERYPERSON = #{deliveryperson,jdbcType=VARCHAR},
+      </if>
+      <if test="receiptconfirmationtime != null">
+        RECEIPTCONFIRMATIONTIME = #{receiptconfirmationtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="receiptaddress != null">
+        RECEIPTADDRESS = #{receiptaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="consignee != null">
+        CONSIGNEE = #{consignee,jdbcType=VARCHAR},
+      </if>
+      <if test="paystatus != null">
+        PAYSTATUS = #{paystatus,jdbcType=VARCHAR},
+      </if>
+      <if test="settlementdate != null">
+        SETTLEMENTDATE = #{settlementdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="trackingnumber != null">
+        TRACKINGNUMBER = #{trackingnumber,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ORDERID = #{orderid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.newer.domain.Orders">
+    update ORDERS
+    set ACCOUNTID = #{accountid,jdbcType=DECIMAL},
+      SHIPID = #{shipid,jdbcType=VARCHAR},
+      ORDERTIME = #{ordertime,jdbcType=TIMESTAMP},
+      ORDERPRICE = #{orderprice,jdbcType=DECIMAL},
+      ORDERSTATUS = #{orderstatus,jdbcType=VARCHAR},
+      PAYMENTWAY = #{paymentway,jdbcType=VARCHAR},
+      PAYACCOUNT = #{payaccount,jdbcType=VARCHAR},
+      PAYTIME = #{paytime,jdbcType=TIMESTAMP},
+      DELIVERYTIME = #{deliverytime,jdbcType=TIMESTAMP},
+      DELIVERYPERSON = #{deliveryperson,jdbcType=VARCHAR},
+      RECEIPTCONFIRMATIONTIME = #{receiptconfirmationtime,jdbcType=TIMESTAMP},
+      RECEIPTADDRESS = #{receiptaddress,jdbcType=VARCHAR},
+      CONSIGNEE = #{consignee,jdbcType=VARCHAR},
+      PAYSTATUS = #{paystatus,jdbcType=VARCHAR},
+      SETTLEMENTDATE = #{settlementdate,jdbcType=TIMESTAMP},
+      TRACKINGNUMBER = #{trackingnumber,jdbcType=VARCHAR}
+    where ORDERID = #{orderid,jdbcType=VARCHAR}
+  </update>
+</mapper>
